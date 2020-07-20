@@ -11,6 +11,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+	"github.com/rs/cors"
+
 )
 type App struct {
 	Router *mux.Router
@@ -195,7 +197,25 @@ func (a *App) Delete(path string, f func(w http.ResponseWriter, r *http.Request)
 }
 
 func (a *App) Run(host string) {
-	log.Fatal(http.ListenAndServe(host, a.Router))
+	corsOpts := cors.New(cors.Options{
+        AllowedOrigins: []string{"*"}, //you service is available and allowed for this base url
+        AllowedMethods: []string{
+            http.MethodGet, //http methods for your app
+            http.MethodPost,
+            http.MethodPut,
+            http.MethodPatch,
+            http.MethodDelete,
+            http.MethodOptions,
+            http.MethodHead,
+        },
+
+        AllowedHeaders: []string{
+            "*", //or you can your header key values which you are using in your application
+
+        },
+    })
+
+    log.Fatal(http.ListenAndServe(host, corsOpts.Handler(a.Router)))
 }
 
 func (a *App) handleRequest(handler token.RequestHandlerFunction) http.HandlerFunc {
