@@ -91,6 +91,30 @@ func DeletePerson(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, http.StatusNoContent, nil)
 }
 
+func GetAllPersonsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+	persons := []model.Person{}
+	db.Find(&persons)
+	for i, _ := range persons {
+		db.Model(persons[i]).Related(&persons[i].PersonelInformation)
+	}
+	respondJSON(w, http.StatusOK, persons)
+}
+
+func GetPersonDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	id, err := strconv.Atoi(vars["PersonID"])
+	if err != nil {
+		return
+	}
+	person := getPersonOr404(db, id, w, r)
+	if person == nil {
+		return
+	}
+	db.Model(person).Related(&person.PersonelInformation)
+	respondJSON(w, http.StatusOK, person)
+}
+
 func getPersonOr404(db *gorm.DB, personID int, w http.ResponseWriter, r *http.Request) *model.Person {
 	person := model.Person{}
 	if err := db.First(&person, model.Person{Model: gorm.Model{ID: uint(personID)}}).Error; err != nil {

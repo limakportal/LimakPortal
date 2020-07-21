@@ -269,6 +269,18 @@ func GetPersonsAllRightsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request
 	respondJSON(w, http.StatusOK, right)
 }
 
+func GetAllRightsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+    rights := []model.Right{}
+    db.Find(&rights)
+    for i, _ := range rights {
+        db.Model(rights[i]).Related(&rights[i].Person)
+        db.Model(rights[i]).Related(&rights[i].RightStatus)
+        db.Model(rights[i]).Related(&rights[i].RightType)
+    }
+
+    respondJSON(w, http.StatusOK, rights)
+}
+
 
 func getRightOr404(db *gorm.DB, rightID int, w http.ResponseWriter, r *http.Request) *model.Right {
 	right := model.Right{}

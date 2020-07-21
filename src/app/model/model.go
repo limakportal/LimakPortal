@@ -27,7 +27,7 @@ type Person struct {
 	BloodType            string    `json:"BloodType"`
 	Email                string    `json:"Email"`
 	Picture              []byte    `json:"Picture"`
-	// sad
+	PersonelInformation  []PersonelInformation `gorm:"ForeignKey:PersonID" json:"PersonelInformation"`
 }
 
 type Right struct {

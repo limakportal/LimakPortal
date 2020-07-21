@@ -46,6 +46,8 @@ func (a *App) setRouters() {
 	a.Get("/persons/{PersonID}", a.handleRequest(token.ValidateToken(handler.GetPerson)))
 	a.Put("/persons/{PersonID}", a.handleRequest(token.ValidateToken(handler.UpdatePerson)))
 	a.Delete("/persons/{PersonID}", a.handleRequest(token.ValidateToken(handler.DeletePerson)))
+	a.Get("/personsDesc", a.handleRequest(token.ValidateToken(handler.GetAllPersonsDesc)))
+	a.Get("/personsDesc/{PersonID}", a.handleRequest(token.ValidateToken(handler.GetPersonDesc)))
 
 	a.Get("/genders", a.handleRequest(token.ValidateToken(handler.GetAllGenders)))
 	a.Post("/genders", a.handleRequest(token.ValidateToken(handler.CreateGender)))
@@ -118,6 +120,7 @@ func (a *App) setRouters() {
 	a.Get("/rights/{RightID}", a.handleRequest(token.ValidateToken(handler.GetRight)))
 	a.Put("/rights/{RightID}", a.handleRequest(token.ValidateToken(handler.UpdateRight)))
 	a.Delete("/rights/{RightID}", a.handleRequest(token.ValidateToken(handler.DeleteRight)))
+	a.Get("/rightsDesc", a.handleRequest(token.ValidateToken(handler.GetAllRightsDesc)))
 
 	a.Get("/persons/{PersonID}/rights",  a.handleRequest(token.ValidateToken(handler.GetPersonsAllRights)))
 	a.Post("/persons/{PersonID}/rights",  a.handleRequest(token.ValidateToken(handler.CreatePersonsRight)))
