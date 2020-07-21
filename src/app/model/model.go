@@ -9,26 +9,26 @@ import (
 
 type Person struct {
 	gorm.Model
-	Name                 string                `json:"Name"`
-	Surname              string                `json:"Surname"`
-	IdentityID           string                `json:"IdentityID"`
-	NationalityID        int                   `json:"nationality_id"`
-	Address              string                `json:"Address"`
-	Telephone            string                `json:"Telephone"`
-	BirthDate            time.Time             `json:"BirthDate"`
-	State                int                   `json:"State"`
-	GenderID             int                   `json:"gender_id"`
-	MaritalStatusID      int                   `json:"maritalstatus_id"`
-	RegisteredProvinceID int                   `json:"registered_province_id"`
-	PlaceOfRegistryID    int                   `json:"place_of_registry_id"`
-	IdentitySerialNumber string                `json:"IdentitySerialNumber"`
-	IdentityVolumeNo     string                `json:"IdentityVolumeNo"`
-	MothersName          string                `json:"MothersName"`
-	FathersName          string                `json:"FathersName"`
-	BloodType            string                `json:"BloodType"`
-	Email                string                `json:"Email"`
-	Picture              []byte                `json:"Picture"`
-	PersonelInformation  []PersonelInformation `gorm:"ForeignKey:PersonID" json:"PersonelInformation"`
+	Name                 string              `json:"Name"`
+	Surname              string              `json:"Surname"`
+	IdentityID           string              `json:"IdentityID"`
+	NationalityID        int                 `json:"nationality_id"`
+	Address              string              `json:"Address"`
+	Telephone            string              `json:"Telephone"`
+	BirthDate            time.Time           `json:"BirthDate"`
+	State                int                 `json:"State"`
+	GenderID             int                 `json:"gender_id"`
+	MaritalStatusID      int                 `json:"maritalstatus_id"`
+	RegisteredProvinceID int                 `json:"registered_province_id"`
+	PlaceOfRegistryID    int                 `json:"place_of_registry_id"`
+	IdentitySerialNumber string              `json:"IdentitySerialNumber"`
+	IdentityVolumeNo     string              `json:"IdentityVolumeNo"`
+	MothersName          string              `json:"MothersName"`
+	FathersName          string              `json:"FathersName"`
+	BloodType            string              `json:"BloodType"`
+	Email                string              `json:"Email"`
+	Picture              []byte              `json:"Picture"`
+	PersonelInformation  PersonelInformation `gorm:"ForeignKey:PersonID" json:"PersonelInformation"`
 }
 
 type Right struct {
