@@ -108,73 +108,51 @@ func (a *App) setRouters() {
 	a.Delete("/personhistories/{PersonHistoryID}", a.handleRequest(token.ValidateToken(handler.DeletePersonHistory)))
 
 	a.Get("/titles", a.handleRequest(token.ValidateToken(handler.GetAllTitles)))
-
 	a.Post("/titles", a.handleRequest(token.ValidateToken(handler.CreateTitle)))
-
 	a.Get("/titles/{TitleID}", a.handleRequest(token.ValidateToken(handler.GetTitle)))
-
 	a.Put("/titles/{TitleID}", a.handleRequest(token.ValidateToken(handler.UpdateTitle)))
-
 	a.Delete("/titles/{TitleID}", a.handleRequest(token.ValidateToken(handler.DeleteTitle)))
 
 	a.Get("/rights", a.handleRequest(token.ValidateToken(handler.GetAllRights)))
-
 	a.Post("/rights", a.handleRequest(token.ValidateToken(handler.CreateRight)))
-
 	a.Get("/rights/{RightID}", a.handleRequest(token.ValidateToken(handler.GetRight)))
-
 	a.Put("/rights/{RightID}", a.handleRequest(token.ValidateToken(handler.UpdateRight)))
-
 	a.Delete("/rights/{RightID}", a.handleRequest(token.ValidateToken(handler.DeleteRight)))
 
+	a.Get("/persons/{PersonID}/rights",  a.handleRequest(token.ValidateToken(handler.GetPersonsAllRights)))
+	a.Post("/persons/{PersonID}/rights",  a.handleRequest(token.ValidateToken(handler.CreatePersonsRight)))
+	a.Get("/persons/{PersonID}/rights/{id:[0-9]+}",  a.handleRequest(token.ValidateToken(handler.GetPersonsRights)))
+	a.Put("/persons/{PersonID}/rights/{id:[0-9]+}", a.handleRequest(token.ValidateToken(handler.UpdatePersonsRight)))
+	a.Delete("/persons/{PersonID}/rights/{id:[0-9]+}",  a.handleRequest(token.ValidateToken(handler.DeletePersonsRights)))
+
 	a.Get("/rightHistoryes", a.handleRequest(token.ValidateToken(handler.GetAllRightHistoryes)))
-
 	a.Post("/rightHistoryes", a.handleRequest(token.ValidateToken(handler.CreateRightHistory)))
-
 	a.Get("/rightHistoryes/{RightHistoryID}", a.handleRequest(token.ValidateToken(handler.GetRightHistory)))
-
 	a.Put("/rightHistoryes/{RightHistoryID}", a.handleRequest(token.ValidateToken(handler.UpdateRightHistory)))
-
 	a.Delete("/rightHistoryes/{RightHistoryID}", a.handleRequest(token.ValidateToken(handler.DeleteRightHistory)))
 
 	a.Get("/rightStatuses", a.handleRequest(token.ValidateToken(handler.GetAllRightStatuses)))
-
 	a.Post("/rightStatuses", a.handleRequest(token.ValidateToken(handler.CreateRightStatus)))
-
 	a.Get("/rightStatuses/{RightStatusID}", a.handleRequest(token.ValidateToken(handler.GetRightStatus)))
-
 	a.Put("/rightStatuses/{RightStatusID}", a.handleRequest(token.ValidateToken(handler.UpdateRightStatus)))
-
 	a.Delete("/rightStatuses/{RightStatusID}", a.handleRequest(token.ValidateToken(handler.DeleteRightStatus)))
 
 	a.Get("/rightTypes", a.handleRequest(token.ValidateToken(handler.GetAllRightTypes)))
-
 	a.Post("/rightTypes", a.handleRequest(token.ValidateToken(handler.CreateRightType)))
-
 	a.Get("/rightTypes/{RightTypeID}", a.handleRequest(token.ValidateToken(handler.GetRightType)))
-
 	a.Put("/rightTypes/{RightTypeID}", a.handleRequest(token.ValidateToken(handler.UpdateRightType)))
-
 	a.Delete("/rightTypes/{RightTypeID}", a.handleRequest(token.ValidateToken(handler.DeleteRightType)))
 
 	a.Get("/organizations", a.handleRequest(token.ValidateToken(handler.GetAllOrganizations)))
-
 	a.Post("/organizations", a.handleRequest(token.ValidateToken(handler.CreateOrganization)))
-
 	a.Get("/organizations/{OrganizationID}", a.handleRequest(token.ValidateToken(handler.GetOrganization)))
-
 	a.Put("/organizations/{OrganizationID}", a.handleRequest(token.ValidateToken(handler.UpdateOrganization)))
-
 	a.Delete("/organizations/{OrganizationID}", a.handleRequest(token.ValidateToken(handler.DeleteOrganization)))
 
 	a.Get("/organizationTypes", a.handleRequest(token.ValidateToken(handler.GetAllOrganizationTypes)))
-
 	a.Post("/organizationTypes", a.handleRequest(token.ValidateToken(handler.CreateOrganizationType)))
-
 	a.Get("/organizationTypes/{OrganizationTypeID}", a.handleRequest(token.ValidateToken(handler.GetOrganizationType)))
-
 	a.Put("/organizationTypes/{OrganizationTypeID}", a.handleRequest(token.ValidateToken(handler.UpdateOrganizationType)))
-
 	a.Delete("/organizationTypes/{OrganizationTypeID}", a.handleRequest(token.ValidateToken(handler.DeleteOrganizationType)))
 
 	a.Post("/login", a.handleRequest(handler.Login))
