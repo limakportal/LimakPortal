@@ -43,6 +43,7 @@ type Right struct {
 	RightTypeID   int       `json:"righttype_id"`
 	RightStatusID int       `json:"rightstatus_id"`
 	RightNumber   int       `json:"RightNumber"`
+	DenyExplanation   string     `json:"DenyExplanation"`
 }
 type RightHistory struct {
 	gorm.Model
