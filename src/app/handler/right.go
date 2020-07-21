@@ -109,7 +109,7 @@ func GetPersonsAllRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	if err := db.Model(&person).Related(&right).Error; err != nil {
 		respondError(w, http.StatusInternalServerError, err.Error())
 		return
-	}
+	}	
 	respondJSON(w, http.StatusOK, right)
 }
 
@@ -158,7 +158,7 @@ func GetPersonsRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	right := getRightOr404(db, id, w, r)
 	if right == nil {
 		return
-	}
+	}	
 	respondJSON(w, http.StatusOK, right)
 }
 
@@ -218,6 +218,57 @@ func DeletePersonsRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, http.StatusNoContent, nil)
 }
+
+func GetPersonsRightDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+
+	personid, err := strconv.Atoi(vars["PersonID"])
+	if err != nil {
+		return
+	}
+	person := getPersonOr404(db, personid, w, r)
+	if person == nil {
+		return
+	}
+
+	id, _ := strconv.Atoi(vars["id"])
+	right := getRightOr404(db, id, w, r)
+	if right == nil {
+		return
+	}
+	db.Model(right).Related(&right.Person)
+	db.Model(right).Related(&right.RightStatus)
+	db.Model(right).Related(&right.RightType)
+	respondJSON(w, http.StatusOK, right)
+}
+
+func GetPersonsAllRightsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+
+	id, err := strconv.Atoi(vars["PersonID"])
+	if err != nil {
+		return
+	}
+	person := getPersonOr404(db, id, w, r)
+	if person == nil {
+		return
+	}
+
+	right := []model.Right{}
+	if err := db.Model(&person).Related(&right).Error; err != nil {
+		respondError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	for i, _ := range right {
+		db.Model(right[i]).Related(&right[i].Person)
+		db.Model(right[i]).Related(&right[i].RightStatus)
+		db.Model(right[i]).Related(&right[i].RightType)
+	}
+	respondJSON(w, http.StatusOK, right)
+}
+
 
 func getRightOr404(db *gorm.DB, rightID int, w http.ResponseWriter, r *http.Request) *model.Right {
 	right := model.Right{}

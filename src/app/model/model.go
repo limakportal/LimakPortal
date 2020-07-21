@@ -44,7 +44,11 @@ type Right struct {
 	RightStatusID int       `json:"rightstatus_id"`
 	RightNumber   int       `json:"RightNumber"`
 	DenyExplanation   string     `json:"DenyExplanation"`
+	Person  []Person `gorm:"ForeignKey:PersonID" json:"Person"`
+	RightStatus []RightStatus  `gorm:"ForeignKey:RightStatusID" json:"RightStatus"`
+	RightType   []RightType  `gorm:"ForeignKey:RightTypeID" json:"RightType"`
 }
+
 type RightHistory struct {
 	gorm.Model
 	RightID       int       `json:"right_id"`

@@ -124,6 +124,8 @@ func (a *App) setRouters() {
 	a.Get("/persons/{PersonID}/rights/{id:[0-9]+}",  a.handleRequest(token.ValidateToken(handler.GetPersonsRights)))
 	a.Put("/persons/{PersonID}/rights/{id:[0-9]+}", a.handleRequest(token.ValidateToken(handler.UpdatePersonsRight)))
 	a.Delete("/persons/{PersonID}/rights/{id:[0-9]+}",  a.handleRequest(token.ValidateToken(handler.DeletePersonsRights)))
+	a.Get("/persons/{PersonID}/rightsDesc/{id:[0-9]+}",  a.handleRequest(token.ValidateToken(handler.GetPersonsRightDesc)))
+	a.Get("/persons/{PersonID}/rightsDesc",  a.handleRequest(token.ValidateToken(handler.GetPersonsAllRightsDesc)))
 
 	a.Get("/rightHistoryes", a.handleRequest(token.ValidateToken(handler.GetAllRightHistoryes)))
 	a.Post("/rightHistoryes", a.handleRequest(token.ValidateToken(handler.CreateRightHistory)))
