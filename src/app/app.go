@@ -12,8 +12,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"github.com/rs/cors"
-
 )
+
 type App struct {
 	Router *mux.Router
 	DB     *gorm.DB
@@ -30,7 +30,7 @@ func (a *App) Initialize(config *config.Config) {
 	// )
 
 	//db, err := gorm.Open(config.DB.Dialect, dbURI)
-	db, err := gorm.Open("postgres", "host=kandula.db.elephantsql.com port=5432 user=plrvuppn password=DyhDQ6VlBGElGdX-qTJSjB5mR1fAvkrd dbname=plrvuppn")
+	db, err := gorm.Open("postgres", "host=kandula.db.elephantsql.com port=5432 user=epzrplhm password=LijQQTh85lZ5C_s9OHPNehkI_ilh_auV dbname=epzrplhm")
 	if err != nil {
 		log.Fatal("Could not connect database")
 	}
@@ -122,13 +122,13 @@ func (a *App) setRouters() {
 	a.Delete("/rights/{RightID}", a.handleRequest(token.ValidateToken(handler.DeleteRight)))
 	a.Get("/rightsDesc", a.handleRequest(token.ValidateToken(handler.GetAllRightsDesc)))
 
-	a.Get("/persons/{PersonID}/rights",  a.handleRequest(token.ValidateToken(handler.GetPersonsAllRights)))
-	a.Post("/persons/{PersonID}/rights",  a.handleRequest(token.ValidateToken(handler.CreatePersonsRight)))
-	a.Get("/persons/{PersonID}/rights/{id:[0-9]+}",  a.handleRequest(token.ValidateToken(handler.GetPersonsRights)))
+	a.Get("/persons/{PersonID}/rights", a.handleRequest(token.ValidateToken(handler.GetPersonsAllRights)))
+	a.Post("/persons/{PersonID}/rights", a.handleRequest(token.ValidateToken(handler.CreatePersonsRight)))
+	a.Get("/persons/{PersonID}/rights/{id:[0-9]+}", a.handleRequest(token.ValidateToken(handler.GetPersonsRights)))
 	a.Put("/persons/{PersonID}/rights/{id:[0-9]+}", a.handleRequest(token.ValidateToken(handler.UpdatePersonsRight)))
-	a.Delete("/persons/{PersonID}/rights/{id:[0-9]+}",  a.handleRequest(token.ValidateToken(handler.DeletePersonsRights)))
-	a.Get("/persons/{PersonID}/rightsDesc/{id:[0-9]+}",  a.handleRequest(token.ValidateToken(handler.GetPersonsRightDesc)))
-	a.Get("/persons/{PersonID}/rightsDesc",  a.handleRequest(token.ValidateToken(handler.GetPersonsAllRightsDesc)))
+	a.Delete("/persons/{PersonID}/rights/{id:[0-9]+}", a.handleRequest(token.ValidateToken(handler.DeletePersonsRights)))
+	a.Get("/persons/{PersonID}/rightsDesc/{id:[0-9]+}", a.handleRequest(token.ValidateToken(handler.GetPersonsRightDesc)))
+	a.Get("/persons/{PersonID}/rightsDesc", a.handleRequest(token.ValidateToken(handler.GetPersonsAllRightsDesc)))
 
 	a.Get("/rightHistoryes", a.handleRequest(token.ValidateToken(handler.GetAllRightHistoryes)))
 	a.Post("/rightHistoryes", a.handleRequest(token.ValidateToken(handler.CreateRightHistory)))
@@ -181,28 +181,28 @@ func (a *App) Delete(path string, f func(w http.ResponseWriter, r *http.Request)
 
 func (a *App) Run(host string) {
 	corsOpts := cors.New(cors.Options{
-        AllowedOrigins: []string{"*"}, //you service is available and allowed for this base url
-        AllowedMethods: []string{
-            http.MethodGet, //http methods for your app
-            http.MethodPost,
-            http.MethodPut,
-            http.MethodPatch,
-            http.MethodDelete,
-            http.MethodOptions,
-            http.MethodHead,
-        },
+		AllowedOrigins: []string{"*"}, //you service is available and allowed for this base url
+		AllowedMethods: []string{
+			http.MethodGet, //http methods for your app
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+			http.MethodOptions,
+			http.MethodHead,
+		},
 
-        AllowedHeaders: []string{
-            "*", //or you can your header key values which you are using in your application
+		AllowedHeaders: []string{
+			"*", //or you can your header key values which you are using in your application
 
 		},
 		ExposedHeaders: []string{
-            "*", //or you can your header key values which you are using in your application
+			"*", //or you can your header key values which you are using in your application
 
-        },
-    })
+		},
+	})
 
-    log.Fatal(http.ListenAndServe(host, corsOpts.Handler(a.Router)))
+	log.Fatal(http.ListenAndServe(host, corsOpts.Handler(a.Router)))
 }
 
 func (a *App) handleRequest(handler token.RequestHandlerFunction) http.HandlerFunc {
