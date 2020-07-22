@@ -316,6 +316,13 @@ func GetAllRightsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		db.Model(rights[i]).Related(&rights[i].RightStatus)
 		db.Model(rights[i]).Related(&rights[i].RightType)
 		id := rights[i].Approver1
+		personid := rights[i].PersonID
+
+		personDetail := getPersonOr404(db, personid, w, r)
+		if personDetail != nil {
+			rights[i].PersonFullName = *&personDetail.Name + " " + *&personDetail.Surname
+
+		}
 
 		personapp1 := getPersonOr404(db, id, w, r)
 		if personapp1 != nil {
