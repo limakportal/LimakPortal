@@ -48,6 +48,8 @@ type Right struct {
 	Person          Person      `gorm:"ForeignKey:PersonID" json:"Person"`
 	RightStatus     RightStatus `gorm:"ForeignKey:RightStatusID" json:"RightStatus"`
 	RightType       RightType   `gorm:"ForeignKey:RightTypeID" json:"RightType"`
+	PersonApprover1 Person      `json:"PersonApprover1"`
+	PersonApprover2 Person      `json:"PersonApprover2"`
 }
 
 type RightHistory struct {

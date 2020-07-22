@@ -16,7 +16,6 @@ func GetAllRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	rights := []model.Right{}
 	db.Find(&rights)
 	respondJSON(w, http.StatusOK, rights)
-	//test
 }
 
 func CreateRight(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
@@ -49,7 +48,6 @@ func GetRight(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, http.StatusOK, right)
 }
-
 func RightDownload(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
@@ -317,6 +315,19 @@ func GetAllRightsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		db.Model(rights[i]).Related(&rights[i].Person)
 		db.Model(rights[i]).Related(&rights[i].RightStatus)
 		db.Model(rights[i]).Related(&rights[i].RightType)
+		id := rights[i].Approver1
+
+		personapp1 := getPersonOr404(db, id, w, r)
+		if personapp1 != nil {
+			rights[i].PersonApprover1 = *personapp1
+
+		}
+		id2 := rights[i].Approver2
+
+		personapp2 := getPersonOr404(db, id2, w, r)
+		if personapp2 != nil {
+			rights[i].PersonApprover2 = *personapp2
+		}
 	}
 
 	respondJSON(w, http.StatusOK, rights)
