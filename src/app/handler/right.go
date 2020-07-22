@@ -66,7 +66,7 @@ func RightDownload(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, err := docx.ReadDocxFile("izin.docx")
+	file, err := docx.ReadDocxFile("./izin.docx")
 
 	if err != nil {
 		panic(err)
@@ -81,10 +81,10 @@ func RightDownload(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	docx1.Replace("yetkilikisi", "--", -1)
 	docx1.Replace("izinsuresi", string(right.RightNumber), -1)
 
-	docx1.WriteToFile("rightresult.docx")
+	docx1.WriteToFile("./rightresult.docx")
 
 	file.Close()
-	respondFile(w, r, "rightresult.docx")
+	respondFile(w, r, "./rightresult.docx")
 }
 
 func UpdateRight(db *gorm.DB, w http.ResponseWriter, r *http.Request) {

@@ -21,7 +21,7 @@ func GenerateToken(person *model.Person) (string, error) {
 
 	claims["authorized"] = true
 	claims["user"] = person.IdentityID
-	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
+	claims["exp"] = time.Now().Add(time.Minute * 120).Unix()
 
 	tokenString, err := token.SignedString(mySignedKey)
 
