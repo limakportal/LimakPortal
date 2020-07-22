@@ -52,6 +52,7 @@ type Right struct {
 	PersonApprover2   Person      `json:"PersonApprover2"`
 	Approver1FullName string      `gorm:"-" json:"Approver1FullName"`
 	Approver2FullName string      `gorm:"-" json:"Approver2FullName"`
+	PersonFullName    string      `gorm:"-" json:"PersonFullName"`
 }
 
 type RightHistory struct {
