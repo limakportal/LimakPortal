@@ -14,6 +14,7 @@ func GetAllRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	rights := []model.Right{}
 	db.Find(&rights)
 	respondJSON(w, http.StatusOK, rights)
+	//test
 }
 
 func CreateRight(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
@@ -91,7 +92,6 @@ func DeleteRight(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, http.StatusNoContent, nil)
 }
 
-
 func GetPersonsAllRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
@@ -109,7 +109,7 @@ func GetPersonsAllRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	if err := db.Model(&person).Related(&right).Error; err != nil {
 		respondError(w, http.StatusInternalServerError, err.Error())
 		return
-	}	
+	}
 	respondJSON(w, http.StatusOK, right)
 }
 
@@ -125,7 +125,7 @@ func CreatePersonsRight(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	right :=   model.Right{PersonID: int(person.ID)}
+	right := model.Right{PersonID: int(person.ID)}
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&right); err != nil {
@@ -158,7 +158,7 @@ func GetPersonsRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	right := getRightOr404(db, id, w, r)
 	if right == nil {
 		return
-	}	
+	}
 	respondJSON(w, http.StatusOK, right)
 }
 
@@ -270,17 +270,16 @@ func GetPersonsAllRightsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request
 }
 
 func GetAllRightsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
-    rights := []model.Right{}
-    db.Find(&rights)
-    for i, _ := range rights {
-        db.Model(rights[i]).Related(&rights[i].Person)
-        db.Model(rights[i]).Related(&rights[i].RightStatus)
-        db.Model(rights[i]).Related(&rights[i].RightType)
-    }
+	rights := []model.Right{}
+	db.Find(&rights)
+	for i, _ := range rights {
+		db.Model(rights[i]).Related(&rights[i].Person)
+		db.Model(rights[i]).Related(&rights[i].RightStatus)
+		db.Model(rights[i]).Related(&rights[i].RightType)
+	}
 
-    respondJSON(w, http.StatusOK, rights)
+	respondJSON(w, http.StatusOK, rights)
 }
-
 
 func getRightOr404(db *gorm.DB, rightID int, w http.ResponseWriter, r *http.Request) *model.Right {
 	right := model.Right{}
