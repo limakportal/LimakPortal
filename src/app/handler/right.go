@@ -320,6 +320,7 @@ func GetAllRightsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		personapp1 := getPersonOr404(db, id, w, r)
 		if personapp1 != nil {
 			rights[i].PersonApprover1 = *personapp1
+			rights[i].Approver1FullName = *&personapp1.Name + " " + *&personapp1.Surname
 
 		}
 		id2 := rights[i].Approver2
@@ -327,6 +328,8 @@ func GetAllRightsDesc(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		personapp2 := getPersonOr404(db, id2, w, r)
 		if personapp2 != nil {
 			rights[i].PersonApprover2 = *personapp2
+			rights[i].Approver2FullName = *&personapp2.Name + " " + *&personapp2.Surname
+
 		}
 	}
 

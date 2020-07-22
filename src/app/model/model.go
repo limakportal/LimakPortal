@@ -33,23 +33,25 @@ type Person struct {
 
 type Right struct {
 	gorm.Model
-	PersonID        int         `json:"person_id"`
-	StartDate       time.Time   `json:"StartDate"`
-	EndDate         time.Time   `json:"EndDate"`
-	DateOfReturn    time.Time   `json:"DateOfReturn"`
-	Address         string      `json:"Address"`
-	Telephone       string      `json:"Telephone"`
-	Approver1       int         `json:"Approver1"`
-	Approver2       int         `json:"Approver2"`
-	RightTypeID     int         `json:"righttype_id"`
-	RightStatusID   int         `json:"rightstatus_id"`
-	RightNumber     int         `json:"RightNumber"`
-	DenyExplanation string      `json:"DenyExplanation"`
-	Person          Person      `gorm:"ForeignKey:PersonID" json:"Person"`
-	RightStatus     RightStatus `gorm:"ForeignKey:RightStatusID" json:"RightStatus"`
-	RightType       RightType   `gorm:"ForeignKey:RightTypeID" json:"RightType"`
-	PersonApprover1 Person      `json:"PersonApprover1"`
-	PersonApprover2 Person      `json:"PersonApprover2"`
+	PersonID          int         `json:"person_id"`
+	StartDate         time.Time   `json:"StartDate"`
+	EndDate           time.Time   `json:"EndDate"`
+	DateOfReturn      time.Time   `json:"DateOfReturn"`
+	Address           string      `json:"Address"`
+	Telephone         string      `json:"Telephone"`
+	Approver1         int         `json:"Approver1"`
+	Approver2         int         `json:"Approver2"`
+	RightTypeID       int         `json:"righttype_id"`
+	RightStatusID     int         `json:"rightstatus_id"`
+	RightNumber       int         `json:"RightNumber"`
+	DenyExplanation   string      `json:"DenyExplanation"`
+	Person            Person      `gorm:"ForeignKey:PersonID" json:"Person"`
+	RightStatus       RightStatus `gorm:"ForeignKey:RightStatusID" json:"RightStatus"`
+	RightType         RightType   `gorm:"ForeignKey:RightTypeID" json:"RightType"`
+	PersonApprover1   Person      `json:"PersonApprover1"`
+	PersonApprover2   Person      `json:"PersonApprover2"`
+	Approver1FullName string      `gorm:"-" json:"Approver1FullName"`
+	Approver2FullName string      `gorm:"-" json:"Approver2FullName"`
 }
 
 type RightHistory struct {
