@@ -121,6 +121,7 @@ func (a *App) setRouters() {
 	a.Put("/rights/{RightID}", a.handleRequest(token.ValidateToken(handler.UpdateRight)))
 	a.Delete("/rights/{RightID}", a.handleRequest(token.ValidateToken(handler.DeleteRight)))
 	a.Get("/rightsDesc", a.handleRequest(token.ValidateToken(handler.GetAllRightsDesc)))
+	a.Get("/rightdownload/{RightID}", a.handleRequest(token.ValidateToken(handler.RightDownload)))
 
 	a.Get("/persons/{PersonID}/rights", a.handleRequest(token.ValidateToken(handler.GetPersonsAllRights)))
 	a.Post("/persons/{PersonID}/rights", a.handleRequest(token.ValidateToken(handler.CreatePersonsRight)))

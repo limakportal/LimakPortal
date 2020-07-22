@@ -1,8 +1,9 @@
 package token
 
 import (
-	"limakcv/src/app/model"
+	"encoding/json"
 	"fmt"
+	"limakcv/src/app/model"
 	"net/http"
 	"time"
 
@@ -45,15 +46,31 @@ func ValidateToken(next RequestHandlerFunction) RequestHandlerFunction {
 			})
 
 			if err != nil {
-				fmt.Fprintf(w, err.Error())
+				respondErrorToken(w, http.StatusUnauthorized, "Token expired")
 			}
 			if token.Valid {
 				next(db, w, r)
 			}
 
 		} else {
-			fmt.Fprintf(w, "Not Authorized")
+			respondErrorToken(w, http.StatusUnauthorized, "Not Authorized")
 		}
 
 	}
+}
+
+func respondErrorToken(w http.ResponseWriter, code int, message string) {
+	respondJSONToken(w, code, map[string]string{"error": message})
+}
+
+func respondJSONToken(w http.ResponseWriter, status int, payload interface{}) {
+	response, err := json.Marshal(payload)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	w.Write([]byte(response))
 }

@@ -5,9 +5,11 @@ import (
 	"limakcv/src/app/model"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+	"github.com/nguyenthenguyen/docx"
 )
 
 func GetAllRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
@@ -46,6 +48,45 @@ func GetRight(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	respondJSON(w, http.StatusOK, right)
+}
+
+func RightDownload(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	id, err := strconv.Atoi(vars["RightID"])
+	if err != nil {
+		return
+	}
+	right := getRightOr404(db, id, w, r)
+	if right == nil {
+		return
+	}
+
+	person := getPersonOr404(db, right.PersonID, w, r)
+
+	if person == nil {
+		return
+	}
+
+	file, err := docx.ReadDocxFile("izin.docx")
+
+	if err != nil {
+		panic(err)
+	}
+	docx1 := file.Editable()
+
+	docx1.Replace("bastarih", right.StartDate.Format("2016/02/01"), -1)
+	docx1.Replace("isim", person.Name+" "+person.Surname, -1)
+	docx1.Replace("tarih", time.Now().Format("2016/02/01"), -1)
+	docx1.Replace("adres", person.Address, -1)
+	docx1.Replace("telefon", person.Telephone, -1)
+	docx1.Replace("yetkilikisi", "--", -1)
+	docx1.Replace("izinsuresi", string(right.RightNumber), -1)
+
+	docx1.WriteToFile("rightresult.docx")
+
+	file.Close()
+	respondFile(w, r, "rightresult.docx")
 }
 
 func UpdateRight(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
