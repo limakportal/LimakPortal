@@ -114,17 +114,20 @@ type OrganizationTree struct {
 	Name                string              `json:"Name"`
 	UpperOrganizationID int                 `json:"upper_organization_id"`
 	Organization        []*OrganizationTree `json:"Organization,omitempty"`
+	Expanded            bool                `json:"Expanded,omitempty"`
+	ClassName           string              `json:"ClassName,omitempty"`
+	Label               string              `json:"Label,omitempty"`
 }
 
 func GetOrganizationTree(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
 	var mainorganization = getMainOrganizationOr404(db, w, r)
-	var root *OrganizationTree = &OrganizationTree{int(mainorganization.ID), mainorganization.Name, 0, nil}
+	var root *OrganizationTree = &OrganizationTree{int(mainorganization.ID), mainorganization.Name, 0, nil, true, "", mainorganization.Name}
 	organizations := []model.Organization{}
 	db.Find(&organizations)
 	for i, _ := range organizations {
 		data := []*OrganizationTree{
-			&OrganizationTree{int(organizations[i].ID), organizations[i].Name, organizations[i].UpperOrganizationID, nil},
+			&OrganizationTree{int(organizations[i].ID), organizations[i].Name, organizations[i].UpperOrganizationID, nil, true, "", organizations[i].Name},
 		}
 		root.Add(data...)
 	}
