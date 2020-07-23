@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"time"
 
+	"path/filepath"
+
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"github.com/nguyenthenguyen/docx"
@@ -66,7 +68,8 @@ func RightDownload(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, err := docx.ReadDocxFile("limakcv/src/izin.docx")
+	dir := filepath.Dir("izin.docx")
+	file, err := docx.ReadDocxFile(dir + "/izin.docx")
 
 	if err != nil {
 		panic(err)
