@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"limakcv/src/app/model"
 	"net/http"
+	"path/filepath"
 	"strconv"
 	"time"
 
@@ -67,7 +68,10 @@ func RightDownload(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	//dir := filepath.Dir("izin.docx")
-	file, err := docx.ReadDocxFile("../../izin.docx")
+	file, err := docx.ReadDocxFile(filepath.Base("izin.docx"))
+
+	// filfilePrefixe, _ := filepath.Abs("./work/src/Project/view/html/") // path from the working directory
+	// file = template.Must(template.ParseFiles(filePrefix + "/first.html"))
 
 	if err != nil {
 		panic(err)
