@@ -100,6 +100,15 @@ func getOrganizationOr404(db *gorm.DB, organizationID int, w http.ResponseWriter
 	return &organization
 }
 
+func getMainOrganizationOr404(db *gorm.DB, w http.ResponseWriter, r *http.Request) *model.Organization {
+	organization := model.Organization{}
+	if err := db.First(&organization, model.Organization{UpperOrganizationID: 0}).Error; err != nil {
+		respondError(w, http.StatusNotFound, err.Error())
+		return nil
+	}
+	return &organization
+}
+
 type OrganizationTree struct {
 	Id                  int                 `json:"Id"`
 	Name                string              `json:"Name"`
@@ -109,7 +118,8 @@ type OrganizationTree struct {
 
 func GetOrganizationTree(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
-	var root *OrganizationTree = &OrganizationTree{19, "Limak Holding", 0, nil}
+	var mainorganization = getMainOrganizationOr404(db, w, r)
+	var root *OrganizationTree = &OrganizationTree{int(mainorganization.ID), mainorganization.Name, 0, nil}
 	organizations := []model.Organization{}
 	db.Find(&organizations)
 	for i, _ := range organizations {
