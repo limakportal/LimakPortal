@@ -99,3 +99,47 @@ func getOrganizationOr404(db *gorm.DB, organizationID int, w http.ResponseWriter
 	}
 	return &organization
 }
+
+type OrganizationTree struct {
+	Id                  int                 `json:"Id"`
+	Name                string              `json:"Name"`
+	UpperOrganizationID int                 `json:"upper_organization_id"`
+	Organization        []*OrganizationTree `json:"Organization,omitempty"`
+}
+
+func GetOrganizationTree(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+
+	var root *OrganizationTree = &OrganizationTree{19, "Limak Holding", 0, nil}
+	organizations := []model.Organization{}
+	db.Find(&organizations)
+	for i, _ := range organizations {
+		data := []*OrganizationTree{
+			&OrganizationTree{int(organizations[i].ID), organizations[i].Name, organizations[i].UpperOrganizationID, nil},
+		}
+		root.Add(data...)
+	}
+
+	respondJSON(w, http.StatusOK, root)
+}
+func (this *OrganizationTree) SliceAyarla() int {
+	var i_slice int = len(this.Organization)
+	for _, c := range this.Organization {
+		i_slice += c.SliceAyarla()
+	}
+	return i_slice
+}
+func (this *OrganizationTree) Add(nodes ...*OrganizationTree) bool {
+	var size = this.SliceAyarla()
+	for _, n := range nodes {
+		if n.UpperOrganizationID == this.Id {
+			this.Organization = append(this.Organization, n)
+		} else {
+			for _, c := range this.Organization {
+				if c.Add(n) {
+					break
+				}
+			}
+		}
+	}
+	return this.SliceAyarla() == size+len(nodes)
+}
