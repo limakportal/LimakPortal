@@ -66,7 +66,7 @@ func RightDownload(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, err := docx.ReadDocxFile("limakcv/src/izin.docx")
+	file, err := docx.ReadDocxFile("izin.docx")
 
 	if err != nil {
 		panic(err)
