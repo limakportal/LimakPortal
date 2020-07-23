@@ -2,15 +2,14 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"limakcv/src/app/model"
 	"net/http"
 	"path/filepath"
 	"strconv"
-	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
-	"github.com/nguyenthenguyen/docx"
 )
 
 func GetAllRights(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
@@ -68,28 +67,39 @@ func RightDownload(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	//dir := filepath.Dir("izin.docx")
-	file, err := docx.ReadDocxFile(filepath.Base("izin.docx"))
+	//file, err := docx.ReadDocxFile(filepath.Base("izin.docx"))
 
-	// filfilePrefixe, _ := filepath.Abs("./work/src/Project/view/html/") // path from the working directory
-	// file = template.Must(template.ParseFiles(filePrefix + "/first.html"))
+	//dir := filepath.Dir("izin.docx")
+	//file, err := docx.ReadDocxFile(filepath.Base("izin.docx"))
+	//respondError(w, http.StatusBadRequest, filepath.ToSlash("izin.docx"))
+	fmt.Fprintf(w, filepath.Base("izin.docx"))
+	fmt.Fprintf(w, filepath.Dir("izin.docx"))
+	fmt.Fprintf(w, filepath.Ext("izin.docx"))
+	fmt.Fprintf(w, filepath.FromSlash("izin.docx"))
+	fmt.Fprintf(w, filepath.Join("izin.docx"))
+	fmt.Fprintf(w, filepath.ToSlash("izin.docx"))
+	// abs, err := filepath.Abs("./izin.docx")
+	// if err == nil {
+	// 	fmt.Println("Absolute:", abs)
+	// }
 
-	if err != nil {
-		panic(err)
-	}
-	docx1 := file.Editable()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// docx1 := file.Editable()
 
-	docx1.Replace("bastarih", right.StartDate.Format("2016/02/01"), -1)
-	docx1.Replace("isim", person.Name+" "+person.Surname, -1)
-	docx1.Replace("tarih", time.Now().Format("2016/02/01"), -1)
-	docx1.Replace("adres", person.Address, -1)
-	docx1.Replace("telefon", person.Telephone, -1)
-	docx1.Replace("yetkilikisi", "--", -1)
-	docx1.Replace("izinsuresi", string(right.RightNumber), -1)
+	// docx1.Replace("bastarih", right.StartDate.Format("2016/02/01"), -1)
+	// docx1.Replace("isim", person.Name+" "+person.Surname, -1)
+	// docx1.Replace("tarih", time.Now().Format("2016/02/01"), -1)
+	// docx1.Replace("adres", person.Address, -1)
+	// docx1.Replace("telefon", person.Telephone, -1)
+	// docx1.Replace("yetkilikisi", "--", -1)
+	// docx1.Replace("izinsuresi", string(right.RightNumber), -1)
 
-	docx1.WriteToFile("limakcv/src/rightresult.docx")
+	// docx1.WriteToFile("limakcv/src/rightresult.docx")
 
-	file.Close()
-	respondFile(w, r, "limakcv/src/rightresult.docx")
+	// file.Close()
+	// respondFile(w, r, "limakcv/src/rightresult.docx")
 }
 
 func UpdateRight(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
