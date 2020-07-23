@@ -115,7 +115,7 @@ type OrganizationTree struct {
 	UpperOrganizationID int                 `json:"upper_organization_id"`
 	Organization        []*OrganizationTree `json:"Organization,omitempty"`
 	Expanded            bool                `json:"Expanded,omitempty"`
-	ClassName           string              `json:"ClassName,omitempty"`
+	ClassName           string              `json:"ClassName"`
 	Label               string              `json:"Label,omitempty"`
 }
 
