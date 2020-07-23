@@ -149,6 +149,7 @@ func (a *App) setRouters() {
 	a.Put("/rightTypes/{RightTypeID}", a.handleRequest(token.ValidateToken(handler.UpdateRightType)))
 	a.Delete("/rightTypes/{RightTypeID}", a.handleRequest(token.ValidateToken(handler.DeleteRightType)))
 
+	a.Get("/organizationTree", a.handleRequest(token.ValidateToken(handler.GetOrganizationTree)))
 	a.Get("/organizations", a.handleRequest(token.ValidateToken(handler.GetAllOrganizations)))
 	a.Post("/organizations", a.handleRequest(token.ValidateToken(handler.CreateOrganization)))
 	a.Get("/organizations/{OrganizationID}", a.handleRequest(token.ValidateToken(handler.GetOrganization)))
